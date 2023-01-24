@@ -1,3 +1,4 @@
+# Link to Stack Overflow forum with this example: https://stackoverflow.com/a/19586836/18101072
 class Observable:
     def subscribe(self,callback):
         self.callback = callback

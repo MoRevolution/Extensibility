@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "../examplePadding"
+		},
+		{
+			"path": "."
+		},
+		{
+			"path": "../gui"
+		},
+		{
+			"path": "../pillow Example"
+		}
+	]
+}

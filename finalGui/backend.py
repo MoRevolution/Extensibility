@@ -1,12 +1,11 @@
-
-
-
 class Interaction:
     from tapsdk import TapSDK, TapInputMode
     from Finger import Finger
 
     import keyboard
     import screen_brightness_control as sbc
+    # from multiplePages import tapStrapGUI
+   
     finger = Finger("Empty", "Put Hotkey Here", 0)
     tap_instance = []
     tap_identifiers = []
@@ -41,6 +40,7 @@ class Interaction:
         self.current_tapcode = tapcode
         self.activeStatus(tapcode)
         self.selectMode(tapcode)
+        # self.selectMode(tapcode)
 
     #Detects mouse movement and gives the x and y coordinates
     def on_mouse_event(self, identifier, dx, dy, isMouse):

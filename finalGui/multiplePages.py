@@ -3,6 +3,9 @@ from PIL import Image, ImageTk, ImageFilter
 import time
 import random
 import math
+import backend
+
+
 
 class tapStrapGUI:
     indicatorClicked = None
@@ -16,6 +19,9 @@ class tapStrapGUI:
     globalR = 10
     globalG = 10
     globalB = 10
+    currentFeature = 0
+    current_tap = 0
+    global button1
 
     def __init__(self):
         self.startWindow1()
@@ -45,7 +51,7 @@ class tapStrapGUI:
         self.mainFrame.configure(height = 600, width = 1000)
     #Side Bar feature buttons
     def featureButtons(self):
-
+        
         self.labelb0 = Label(text = "")
         self.labelb0.config(bg = "#ffffff")
         self.labelb0.place(x = 0, y = (50), width = 175, height = 2)
@@ -127,6 +133,7 @@ class tapStrapGUI:
                     self.triggerFeat4(self.stringVar1)
 
     def triggerFeat1(self, labelTxt):
+         self.currentFeature = 1
          self.frameFF1 = Frame(self.mainFrame, height = 600,
          width = 1000, bg = "#40495c", highlightcolor = "blue",highlightbackground= "blue")
          self.frameFF1.pack()
@@ -152,7 +159,9 @@ class tapStrapGUI:
          self.buttonTemp = Button(master = self.mainFrame, text = "CHANGE COLOR", command = lambda : self.pillowColorCommand(self.tempImg, self.mainCanvas))
          self.buttonTemp.place(x = 95, y = 400)
 
+
     def triggerFeat2(self, labelTxt):
+         self.currentFeature = 2
          self.frameF2 = Frame(self.mainFrame, height = 600,
          width = 1000, bg = "#40495c")
          self.frameF2.pack()
@@ -185,6 +194,7 @@ class tapStrapGUI:
          self.buttonTemp4.place(x = 85, y = 460)
 
     def triggerFeat3(self, labelTxt):
+         self.currentFeature = 3
          self.frameF3 = Frame(self.mainFrame, height = 600,
          width = 1000, bg = "#40495c")
          self.frameF3.pack()
@@ -223,6 +233,7 @@ class tapStrapGUI:
          self.buttonTemp4.place(x = 85, y = 330)
 
     def triggerFeat4(self, labelTxt):
+         self.currentFeature = 4
          self.frameF4 = Frame(self.mainFrame, height = 650,
          width = 1000, bg = "#40495c")
          self.frameF4.pack()
@@ -478,7 +489,7 @@ class tapStrapGUI:
                     self.t3A.insert(INSERT, self.globalB)
                     self.globalB -=1
     #This is a helper function for changing the color to random 
-    #in feature 3
+    #in feature 3tiihieee
     def threeRandomInt(self):
         arr = [.3, .5, .7, .9, 1, 1.1, 1.2, 1.3, 1.4,1.3, 1.4, 1.6, 1.8]
         arrG = [.25, .3, .5, .7, .9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.9 ]
@@ -488,4 +499,53 @@ class tapStrapGUI:
         arrColor = [r, g, b]
         return arrColor
 
-tapStrapGUI()
+    def selectMode(self, tapcode):
+        print("Select Mode")
+        if int(self.current_tap) == 2:
+            self.button1.invoke()
+            print("Select Mode 2")
+            
+        elif int(self.current_tap) == 4:
+            print("Select Mode 4")
+
+    # def on_tap_event(self, tapcode):
+    #     print("Tapcode recieved")
+    #     self.selectMode(tapcode)
+    def on_tap_event(self, identifier, tapcode):
+        self.current_tap = tapcode
+        # backend.Interaction.current_tapcode = tapcode
+        # backend.Interaction.activeStatus(tapcode)
+        self.selectMode(tapcode)
+        print(identifier, str(tapcode)) # For debugging to see what tapcode is being sent
+        # self.selectMode(tapcode)
+    
+
+
+
+
+
+def main():
+    global tap_instance
+    tap_instance = backend.Interaction.TapSDK()
+    tap_interaction = backend.Interaction()
+    
+    tap_instance.run()
+    tap_instance.register_connection_events(tap_interaction.on_connect)
+    tap_instance.register_disconnection_events(tap_interaction.on_disconnect)
+    # tap_instance.register_tap_events(tap_interaction.on_tap_event)
+    
+    tap_instance.register_mouse_events(tap_interaction.on_mouse_event)
+    tap_instance.set_input_mode(backend.Interaction.TapInputMode("controller"))
+    tapGui = tapStrapGUI()
+    tap_instance.register_tap_events(tapGui.on_tap_event)
+    # tapStrapGUI()
+    
+    running = True
+    while running:
+        if(backend.Interaction.keyboard.is_pressed('BackSpace+\\')):
+            running = False
+        else:
+            pass
+        
+if __name__ == "__main__":
+    main()

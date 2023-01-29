@@ -27,6 +27,7 @@ class tapStrapGUI:
 
     import keyboard
     import screen_brightness_control as sbc
+    
     # from multiplePages import tapStrapGUI
 
     def __init__(self):
@@ -172,8 +173,8 @@ class tapStrapGUI:
          resized = self.backgroundImg.resize((200, 200), Image.LANCZOS)
          self.imageX = ImageTk.PhotoImage(resized)
          self.mainCanvas.create_image(213, 130, image= self.imageX)
-         self.buttonTemp = Button(master = self.mainFrame, text = "CHANGE COLOR", command = lambda : self.pillowColorCommand(self.tempImg, self.mainCanvas))
-         self.buttonTemp.place(x = 95, y = 400)
+         self.buttonTempf1 = Button(master = self.mainFrame, text = "CHANGE COLOR", command = lambda : self.pillowColorCommand(self.tempImg, self.mainCanvas))
+         self.buttonTempf1.place(x = 95, y = 400)
 
 
     def triggerFeat2(self, labelTxt):
@@ -582,10 +583,11 @@ class tapStrapGUI:
     
     def useMode(self, tapcode):
         if self.isActive:
-            if int(self.current_tapcode) == 14:
+            if int(self.current_tapcode) == 17:
                 self.in_mode = False
             elif self.current_mode == 1:
                 print("In Mode 1")
+                self.buttonTempf1.invoke()
             elif self.current_mode == 2:
                 print("In Mode 2")
                 if int(self.current_tapcode) == 2:
@@ -601,9 +603,9 @@ class tapStrapGUI:
             elif self.current_mode == 4:
                 print("In Mode 4")
                 if int(self.current_tapcode) == 2:
-                    self.sbc.set_brightness(self.sbc.get_brightness() - 10)
+                    self.sbc.set_brightness('-10')
                 if int(self.current_tapcode) == 4:
-                    self.sbc.set_brightness(self.sbc.get_brightness() + 10)
+                    self.sbc.set_brightness('+10')
     #Selects the mode of the Tap Strap using the given tapcode
     def selectMode(self, tapcode):
         if self.isActive:
@@ -612,25 +614,29 @@ class tapStrapGUI:
                 print("Pointer Finger Active")
                 self.button1.invoke()
                 self.current_mode = 1
+                self.in_mode = True
             elif int(self.current_tapcode) == 4:
                 self.finger = self.fingerList[1]
                 print("Middle Finger Active")
                 self.button2.invoke()
                 self.current_mode = 2
+                self.in_mode = True
             elif int(self.current_tapcode) == 8:
                 self.finger = self.fingerList[2]
                 print("Ring Finger Active")
                 self.button3.invoke()
                 self.current_mode = 3
+                self.in_mode = True
             elif int(self.current_tapcode) == 16:
                 self.finger = self.fingerList[3]
                 print("Pinky Finger Active")
                 self.button4.invoke()
                 self.current_mode = 4
+                self.in_mode = True
             elif int(self.current_tapcode) == 31:
                 self.activateHotkey(self.finger.getHotKey())
                 print("Hotkey Activated")
-            self.in_mode = True
+                self.in_mode = True
 
     #Changes the hotkey assigned to the finger 
     def setHotKey(self, hotkey):

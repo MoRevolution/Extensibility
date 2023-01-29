@@ -376,12 +376,18 @@ class tapStrapGUI:
     def openNewWindow2(self,pWindow):
         newWindow = Toplevel(pWindow)
         newWindow.title("New Window")
-        newWindow.geometry("1400x800")
+        newWindow.geometry("1350x735")
         Label(newWindow,
           text ="This is a new window").pack()
-        newCanvas = Canvas(newWindow, height = 800,
-        width = 1400,bg = "black")
-        newCanvas.pack()
+        self.newCanvas = Canvas(newWindow, height = 735,
+        width = 1350,bg = "black")
+        self.newCanvas.pack()
+        self.newCanvas.pack_propagate(False)
+        self.backgroundImg = Image.open('colorful.PNG')
+        self.backgroundImg.resize((5000,5000), Image.LANCZOS)
+        self.imageJ = ImageTk.PhotoImage(self.backgroundImg)
+        self.newCanvas.create_image(675, 355, image = self.imageJ)
+        #newWindow.bind('<Motion>', self.eventListenerPosition)
     
     def pillowChangeColor(self, image1, canvas):
         for x in range(10):
@@ -401,7 +407,8 @@ class tapStrapGUI:
     def pillowChangeColor2(self, image1, canvas, color):
         match (color):
             case ("red"):
-                for x in range(self.globalR, self.globalR + 5):
+                for x in range(self.globalR, self.globalR + 3):
+                    self.globalR +=1
                     canvas.delete("all")
                     arrImg = image1.split()
                     arrImg0 = arrImg[0].point(lambda i: i * (x/10))
@@ -415,10 +422,11 @@ class tapStrapGUI:
                     time.sleep(.03)  
                     self.t1A.delete("1.0", "end")
                     self.t1A.insert(INSERT, self.globalR)
-                    self.globalR +=1
+                    
                     
             case ("green"):
-                for x in range(self.globalG, self.globalG + 5):
+                for x in range(self.globalG, self.globalG + 3):
+                    self.globalG +=1
                     canvas.delete("all")
                     arrImg = image1.split()
                     arrImg0 = arrImg[0].point(lambda i: i * (self.globalR/ 10))
@@ -432,9 +440,10 @@ class tapStrapGUI:
                     time.sleep(.03)
                     self.t2A.delete("1.0", "end")
                     self.t2A.insert(INSERT, self.globalG)
-                    self.globalG +=1
+                    
             case _:  
-                for x in range(self.globalB, self.globalB + 5):
+                for x in range(self.globalB, self.globalB + 3):
+                    self.globalB +=1
                     canvas.delete("all")
                     arrImg = image1.split()
                     arrImg0 = arrImg[0].point(lambda i: i * (self.globalR/ 10))
@@ -447,15 +456,13 @@ class tapStrapGUI:
                     canvas.update_idletasks()
                     time.sleep(.03)
                     self.t3A.delete("1.0", "end")
-                    self.t3A.insert(INSERT, self.globalB)
-                    self.globalB +=1
+                    self.t3A.insert(INSERT, self.globalB)  
     #REVERSE color
     def pillowChangeColor2A(self, image1, canvas, color):
         match (color):
             case ("red"):
-                print(self.globalR)
-                for x in reversed(range(self.globalR - 5,self.globalR)):
-                    print("MY LOOP IS WORKINGN")
+                for x in reversed(range(self.globalR - 3,self.globalR)):
+                    self.globalR -=1  
                     canvas.delete("all")
                     arrImg = image1.split()
                     arrImg0 = arrImg[0].point(lambda i: i * (x/10))
@@ -468,12 +475,10 @@ class tapStrapGUI:
                     canvas.update_idletasks()
                     time.sleep(.03)  
                     self.t1A.delete("1.0", "end")
-                    self.t1A.insert(INSERT, self.globalR)
-                    self.globalR -=1  
-                    print(x)  
-
+                    self.t1A.insert(INSERT, self.globalR)             
             case ("green"):
-                for x in reversed(range(self.globalG - 5,self.globalG)):
+                for x in reversed(range(self.globalG - 3,self.globalG)):
+                    self.globalG -=1
                     canvas.delete("all")
                     arrImg = image1.split()
                     arrImg0 = arrImg[0].point(lambda i: i * (self.globalR / 10))
@@ -487,10 +492,10 @@ class tapStrapGUI:
                     time.sleep(.03)
                     self.t2A.delete("1.0", "end")
                     self.t2A.insert(INSERT, self.globalG)
-                    self.globalG -=1
-
+                    
             case _:
-                for x in reversed(range(self.globalB - 5,self.globalB)):
+                for x in reversed(range(self.globalB - 3,self.globalB)):
+                    self.globalB -=1
                     canvas.delete("all")
                     arrImg = image1.split()
                     arrImg0 = arrImg[0].point(lambda i: i * (self.globalR / 10))
@@ -504,7 +509,6 @@ class tapStrapGUI:
                     time.sleep(.03)  
                     self.t3A.delete("1.0", "end")
                     self.t3A.insert(INSERT, self.globalB)
-                    self.globalB -=1
     #This is a helper function for changing the color to random 
     #in feature 3tiihieee
     def threeRandomInt(self):

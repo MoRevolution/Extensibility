@@ -365,14 +365,28 @@ class tapStrapGUI:
             self.destroyYourChildren(canvas)
             canvas.update_idletasks()
             time.sleep(.05)
-        #ADD FUNCTIONALITYYYY (this is for feature 2)
     def openNewWindow(self,pWindow):
         newWindow = Toplevel(pWindow)
         newWindow.title("New Window")
-        newWindow.geometry("1400x800")
+        newWindow.geometry("1350x735")
         Label(newWindow,
           text ="This is a new window").pack()
+        self.newCanvas = Canvas(newWindow, height = 735,
+        width = 1350,bg = "black")
+        self.newCanvas.pack()
+        self.newCanvas.pack_propagate(False)
+        self.backgroundImg = Image.open('elnatan.PNG')
+        self.backgroundImg.resize((1000,635), Image.LANCZOS)
+        self.imageJ = ImageTk.PhotoImage(self.backgroundImg)
+        self.newCanvas.create_image(675, 355, image = self.imageJ)
+        #newWindow.bind('<Motion>', self.eventListenerPosition)
+
         #This is for feature 3
+        #To increase RGB value: Call pillowChangeColor2(image1, canvas, color) where color is either 'red', 'blue', or 'green'. 
+        #The canvas value is self.mainCanvas. image1 is self.backgroundImage.
+        #To decrease RGB value: Call pillowChangeColor2A. Same parameters as pillowChangeColor2. For the random color feature,
+        #Call pillowChangeColor(image1, canvas). Same value of image1 and canvas
+
     def openNewWindow2(self,pWindow):
         newWindow = Toplevel(pWindow)
         newWindow.title("New Window")

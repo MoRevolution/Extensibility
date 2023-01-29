@@ -19,9 +19,15 @@ class tapStrapGUI:
     globalR = 10
     globalG = 10
     globalB = 10
-    currentFeature = 0
+    current_mode = 0
     current_tap = 0
-    global button1
+    in_mode = False
+    from tapsdk import TapSDK, TapInputMode
+    from Finger import Finger
+
+    import keyboard
+    import screen_brightness_control as sbc
+    # from multiplePages import tapStrapGUI
 
     def __init__(self):
         global tap_instance
@@ -97,7 +103,7 @@ class tapStrapGUI:
         self.labelb3.place(x = 0, y = (425), width = 175, height = 2)
 
 
-        self.button4 = Button(self.frame1, text = "Feature #4",
+        self.button4 = Button(self.frame1, text = "PC Settings",
         font = ('Courier New', 15), fg= "White", bd = 0, bg = "#0d0d0d",
                 command = lambda: self.selectIndicator(self.button4Indicator, self.button4))
         self.button4.place(x = 20, y = 475)
@@ -194,14 +200,14 @@ class tapStrapGUI:
          resized = self.backgroundImg.resize((200, 200), Image.LANCZOS)
          self.imageX = ImageTk.PhotoImage(resized)
          self.mainCanvas.create_image(213, 130, image= self.imageX)
-         self.buttonTemp = Button(master = self.mainFrame, text = "BLUR", command = lambda : self.pillowBlurCommand(resized, self.mainCanvas))
-         self.buttonTemp.place(x = 85, y = 370)
-         self.buttonTemp2 = Button(master = self.mainFrame, text = "CONTNUOUS BLUR", command = lambda : self.pillowContBlur(resized, self.mainCanvas))
-         self.buttonTemp2.place(x = 85, y = 400)
-         self.buttonTemp3 = Button(master = self.mainFrame, text = "New Window", command = lambda : self.openNewWindow(self.mainCanvas))
-         self.buttonTemp3.place(x = 85, y = 430)
-         self.buttonTemp4 = Button(master = self.mainFrame, text = "Change Hue?", command = lambda : self.pillowHueCommand(resized, self.mainCanvas))
-         self.buttonTemp4.place(x = 85, y = 460)
+         self.buttonTempf2 = Button(master = self.mainFrame, text = "BLUR", command = lambda : self.pillowBlurCommand(resized, self.mainCanvas))
+         self.buttonTempf2.place(x = 85, y = 370)
+         self.buttonTemp2f2 = Button(master = self.mainFrame, text = "CONTNUOUS BLUR", command = lambda : self.pillowContBlur(resized, self.mainCanvas))
+         self.buttonTemp2f2.place(x = 85, y = 400)
+         self.buttonTemp3f2 = Button(master = self.mainFrame, text = "New Window", command = lambda : self.openNewWindow(self.mainCanvas))
+         self.buttonTemp3f2.place(x = 85, y = 430)
+         self.buttonTemp4f2 = Button(master = self.mainFrame, text = "Change Hue?", command = lambda : self.pillowHueCommand(resized, self.mainCanvas))
+         self.buttonTemp4f2.place(x = 85, y = 460)
 
     def triggerFeat3(self, labelTxt):
          self.currentFeature = 3
@@ -509,12 +515,7 @@ class tapStrapGUI:
         arrColor = [r, g, b]
         return arrColor
 
-    from tapsdk import TapSDK, TapInputMode
-    from Finger import Finger
 
-    import keyboard
-    import screen_brightness_control as sbc
-    # from multiplePages import tapStrapGUI
    
     finger = Finger("Empty", "Put Hotkey Here", 0)
     tap_instance = []
@@ -549,7 +550,11 @@ class tapStrapGUI:
         # print(identifier, str(tapcode)) # For debugging to see what tapcode is being sent
         self.current_tapcode = tapcode
         self.activeStatus(tapcode)
-        self.selectMode(tapcode)
+        if self.in_mode:
+            self.useMode(tapcode)
+        else:
+            self.selectMode(tapcode)
+        
         # self.selectMode(tapcode)
 
     #Detects mouse movement and gives the x and y coordinates
@@ -575,6 +580,30 @@ class tapStrapGUI:
                 tapStrapGUI.isActive = True
                 print("Tap is active")
     
+    def useMode(self, tapcode):
+        if self.isActive:
+            if int(self.current_tapcode) == 14:
+                self.in_mode = False
+            elif self.current_mode == 1:
+                print("In Mode 1")
+            elif self.current_mode == 2:
+                print("In Mode 2")
+                if int(self.current_tapcode) == 2:
+                    self.buttonTempf2.invoke()
+                if int(self.current_tapcode) == 4:
+                    self.buttonTemp2f2.invoke()
+                if int(self.current_tapcode) == 8:
+                    self.buttonTemp3f2.invoke()
+                if int(self.current_tapcode) == 16:
+                    self.buttonTemp4f2.invoke()
+            elif self.current_mode == 3:
+                print("In Mode 3")
+            elif self.current_mode == 4:
+                print("In Mode 4")
+                if int(self.current_tapcode) == 2:
+                    self.sbc.set_brightness(self.sbc.get_brightness() - 10)
+                if int(self.current_tapcode) == 4:
+                    self.sbc.set_brightness(self.sbc.get_brightness() + 10)
     #Selects the mode of the Tap Strap using the given tapcode
     def selectMode(self, tapcode):
         if self.isActive:
@@ -582,21 +611,26 @@ class tapStrapGUI:
                 self.finger = self.fingerList[0]
                 print("Pointer Finger Active")
                 self.button1.invoke()
+                self.current_mode = 1
             elif int(self.current_tapcode) == 4:
                 self.finger = self.fingerList[1]
                 print("Middle Finger Active")
                 self.button2.invoke()
+                self.current_mode = 2
             elif int(self.current_tapcode) == 8:
                 self.finger = self.fingerList[2]
                 print("Ring Finger Active")
                 self.button3.invoke()
+                self.current_mode = 3
             elif int(self.current_tapcode) == 16:
                 self.finger = self.fingerList[3]
                 print("Pinky Finger Active")
                 self.button4.invoke()
-            elif int(self.current_tapcode) == 14:
+                self.current_mode = 4
+            elif int(self.current_tapcode) == 31:
                 self.activateHotkey(self.finger.getHotKey())
                 print("Hotkey Activated")
+            self.in_mode = True
 
     #Changes the hotkey assigned to the finger 
     def setHotKey(self, hotkey):

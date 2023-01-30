@@ -13,7 +13,7 @@ class tapStrapGUI:
     #Count and count blur used for calculating gaussian blur factor
     count = 0
     countBlur = 1
-    deviceConnecteed = False
+    deviceConnected = False
     #Global R, G, and B variables are used for calculating the RGB channels in feature three. See method: pilloChangeColor2 / pilloChangeColor2A
     #An int value of 10 indicates a normal value
     globalR = 10
@@ -68,7 +68,7 @@ class tapStrapGUI:
         self.mainFrame.configure(height = 600, width = 1000)
     #Side Bar feature buttons
     def featureButtons(self):
-        
+        self.labelb0 = Label(text = "")
         self.labelb0 = Label(text = "")
         self.labelb0.config(bg = "#ffffff")
         self.labelb0.place(x = 0, y = (50), width = 175, height = 2)
@@ -104,7 +104,7 @@ class tapStrapGUI:
         self.labelb3.place(x = 0, y = (425), width = 175, height = 2)
 
 
-        self.button4 = Button(self.frame1, text = "PC Settings",
+        self.button4 = Button(self.frame1, text = "Feature #4",
         font = ('Courier New', 15), fg= "White", bd = 0, bg = "#0d0d0d",
                 command = lambda: self.selectIndicator(self.button4Indicator, self.button4))
         self.button4.place(x = 20, y = 475)
@@ -150,7 +150,6 @@ class tapStrapGUI:
                     self.triggerFeat4(self.stringVar1)
 
     def triggerFeat1(self, labelTxt):
-         self.currentFeature = 1
          self.frameFF1 = Frame(self.mainFrame, height = 600,
          width = 1000, bg = "#40495c", highlightcolor = "blue",highlightbackground= "blue")
          self.frameFF1.pack()
@@ -167,18 +166,17 @@ class tapStrapGUI:
          self.mainCanvas = Canvas(self.mainFrame, height = 300,
          width = 400,bg = "black")
          self.mainCanvas.pack(pady = 50)
-         self.backgroundImg = Image.open('finalGui\wheels2.png')
+         self.backgroundImg = Image.open('wheels2.png')
          self.tempImg = self.backgroundImg
          print(self.backgroundImg.mode)
          resized = self.backgroundImg.resize((200, 200), Image.LANCZOS)
          self.imageX = ImageTk.PhotoImage(resized)
          self.mainCanvas.create_image(213, 130, image= self.imageX)
-         self.buttonTempf1 = Button(master = self.mainFrame, text = "CHANGE COLOR", command = lambda : self.pillowColorCommand(self.tempImg, self.mainCanvas))
-         self.buttonTempf1.place(x = 95, y = 400)
+         self.buttonTemp = Button(master = self.mainFrame, text = "CHANGE COLOR", command = lambda : self.pillowColorCommand(self.tempImg, self.mainCanvas))
+         self.buttonTemp.place(x = 95, y = 400)
 
 
     def triggerFeat2(self, labelTxt):
-         self.currentFeature = 2
          self.frameF2 = Frame(self.mainFrame, height = 600,
          width = 1000, bg = "#40495c")
          self.frameF2.pack()
@@ -195,30 +193,29 @@ class tapStrapGUI:
          self.mainCanvas = Canvas(self.mainFrame, height = 300,
          width = 400,bg = "black")
          self.mainCanvas.pack(pady = 50)
-         self.backgroundImg = Image.open('finalGui\elnatan.PNG')
+         self.backgroundImg = Image.open('elnatan.PNG')
          self.tempImg = self.backgroundImg
          print(self.backgroundImg.mode)
          resized = self.backgroundImg.resize((200, 200), Image.LANCZOS)
          self.imageX = ImageTk.PhotoImage(resized)
          self.mainCanvas.create_image(213, 130, image= self.imageX)
-         self.buttonTempf2 = Button(master = self.mainFrame, text = "BLUR", command = lambda : self.pillowBlurCommand(resized, self.mainCanvas))
-         self.buttonTempf2.place(x = 85, y = 370)
-         self.buttonTemp2f2 = Button(master = self.mainFrame, text = "CONTNUOUS BLUR", command = lambda : self.pillowContBlur(resized, self.mainCanvas))
-         self.buttonTemp2f2.place(x = 85, y = 400)
-         self.buttonTemp3f2 = Button(master = self.mainFrame, text = "New Window", command = lambda : self.openNewWindow(self.mainCanvas))
-         self.buttonTemp3f2.place(x = 85, y = 430)
-         self.buttonTemp4f2 = Button(master = self.mainFrame, text = "Change Hue?", command = lambda : self.pillowHueCommand(resized, self.mainCanvas))
-         self.buttonTemp4f2.place(x = 85, y = 460)
+         self.buttonTemp = Button(master = self.mainFrame, text = "Gaussian Blur", command = lambda : self.pillowBlurCommand(resized, self.mainCanvas, False))
+         self.buttonTemp.place(x = 85, y = 370)
+         self.buttonTemp2 = Button(master = self.mainFrame, text = "Continuous Blur", command = lambda : self.pillowContBlur(resized, self.mainCanvas, False))
+         self.buttonTemp2.place(x = 85, y = 400)
+         self.buttonTemp4 = Button(master = self.mainFrame, text = "Change Hue", command = lambda : self.pillowHueCommand(resized, self.mainCanvas, False))
+         self.buttonTemp4.place(x = 85, y = 430)
+         self.buttonTemp5 = Button(master = self.mainFrame, text = "New window", command = lambda : self.openNewWindow1(self.mainCanvas))
+         self.buttonTemp5.place(x = 85, y = 460)
 
     def triggerFeat3(self, labelTxt):
-         self.currentFeature = 3
          self.frameF3 = Frame(self.mainFrame, height = 600,
          width = 1000, bg = "#40495c")
          self.frameF3.pack()
          self.label3A = Label(self.frameF3, text = labelTxt, bd = 5,
          font = ("Courier New", 18), relief = RAISED, bg = "#0d0d0d",
          fg = '#fff')
-         self.backgroundImg = Image.open('finalGui\colorful.PNG')
+         self.backgroundImg = Image.open('colorful.PNG')
          self.backgroundImg = self.backgroundImg.resize((400,220), Image.LANCZOS)
          self.imageJ = ImageTk.PhotoImage(self.backgroundImg)
          self.label3A.grid(row = 0, column = 1,pady = 50)
@@ -231,23 +228,23 @@ class tapStrapGUI:
          self.mainCanvas = Canvas(self.mainFrame, height = 300,
          width = 400,bg = "black")
          self.mainCanvas.pack(pady = 50)
-         self.buttonTemp2 = Button(master = self.mainFrame, text = "Change Color", command = lambda : self.pillowChangeColor(self.backgroundImg, self.mainCanvas))
-         self.buttonTemp2.place(x = 85, y = 510)
+         self.buttonTemp2 = Button(master = self.mainFrame, text = "Random Color", command = lambda : self.pillowChangeColor(self.backgroundImg, self.mainCanvas, True))
+         self.buttonTemp2.place(x = 75, y = 510)
          self.buttonTemp3 = Button(master = self.mainFrame, text = "New Window", command = lambda : self.openNewWindow2(self.mainFrame))
-         self.buttonTemp3.place(x = 85, y = 540)
+         self.buttonTemp3.place(x = 75, y = 540)
          self.mainCanvas.create_image(202, 106, image= self.imageJ)
-         self.buttonTemp4 = Button(master = self.mainFrame, text = "Change blue 2", command = lambda : self.pillowChangeColor2(self.backgroundImg, self.mainCanvas, "blue"))
-         self.buttonTemp4.place(x = 85, y = 480)
-         self.buttonTemp4 = Button(master = self.mainFrame, text = "Reverse blue 2", command = lambda : self.pillowChangeColor2A(self.backgroundImg, self.mainCanvas, "blue"))
-         self.buttonTemp4.place(x = 85, y = 450)
-         self.buttonTemp4 = Button(master = self.mainFrame, text = "Change red 2", command = lambda : self.pillowChangeColor2(self.backgroundImg, self.mainCanvas, "red"))
-         self.buttonTemp4.place(x = 85, y = 420)
-         self.buttonTemp4 = Button(master = self.mainFrame, text = "Reverse red 2", command = lambda : self.pillowChangeColor2A(self.backgroundImg, self.mainCanvas, "red"))
-         self.buttonTemp4.place(x = 85, y = 390)
-         self.buttonTemp4 = Button(master = self.mainFrame, text = "Change green 2", command = lambda : self.pillowChangeColor2(self.backgroundImg, self.mainCanvas, "green"))
-         self.buttonTemp4.place(x = 85, y = 360)
-         self.buttonTemp4 = Button(master = self.mainFrame, text = "Reverse green 2", command = lambda : self.pillowChangeColor2A(self.backgroundImg, self.mainCanvas, "green"))
-         self.buttonTemp4.place(x = 85, y = 330)
+         self.buttonTemp4 = Button(master = self.mainFrame, text = "Increase blue value", command = lambda : self.pillowChangeColor2(self.backgroundImg, self.mainCanvas, "blue", True))
+         self.buttonTemp4.place(x = 75, y = 480)
+         self.buttonTemp4 = Button(master = self.mainFrame, text = "Decrease blue value", command = lambda : self.pillowChangeColor2A(self.backgroundImg, self.mainCanvas, "blue", True))
+         self.buttonTemp4.place(x = 75, y = 450)
+         self.buttonTemp4 = Button(master = self.mainFrame, text = "Increase red value", command = lambda : self.pillowChangeColor2(self.backgroundImg, self.mainCanvas, "red", True))
+         self.buttonTemp4.place(x = 75, y = 420)
+         self.buttonTemp4 = Button(master = self.mainFrame, text = "Decrease red value", command = lambda : self.pillowChangeColor2A(self.backgroundImg, self.mainCanvas, "red", True))
+         self.buttonTemp4.place(x = 75, y = 390)
+         self.buttonTemp4 = Button(master = self.mainFrame, text = "Increase green value", command = lambda : self.pillowChangeColor2(self.backgroundImg, self.mainCanvas, "green", True))
+         self.buttonTemp4.place(x = 75, y = 360)
+         self.buttonTemp4 = Button(master = self.mainFrame, text = "Decrease green value", command = lambda : self.pillowChangeColor2A(self.backgroundImg, self.mainCanvas, "green", True))
+         self.buttonTemp4.place(x = 75, y = 330)
 
     def triggerFeat4(self, labelTxt):
          self.currentFeature = 4
@@ -269,9 +266,6 @@ class tapStrapGUI:
         for frame in frame.winfo_children():
              frame.destroy()
     #Experimental feature to determine if device is connected or not
-    def deviceConnecteed(self):
-        if (self.deviceConnected == True):
-            pass
 
     def changeInput(self):
         self.textbox1.config(text = f"Data point number {self.i}")
@@ -290,25 +284,24 @@ class tapStrapGUI:
             case (1):
                 resozed= arrVal[2].resize((200,200), Image.LANCZOS)
                 self.newImage = ImageTk.PhotoImage(resozed)
-                self.mainCanvas.create_image(213, 130, image= self.newImage)
+                self.mainCanvas.create_image(213, 130, image=  self.newImage)
                 newLabel = Label(master = canvas, bg = "#0bed07", width = 7, height = 13)
                 newLabel.place(x = 30, y = 30)
             case (0):
                 resozed= arrVal[1].resize((200,200), Image.LANCZOS)
                 self.newImage = ImageTk.PhotoImage(resozed)
-                self.mainCanvas.create_image(213, 130, image= self.newImage)
+                self.mainCanvas.create_image(213, 130, image=  self.newImage)
                 newLabel = Label(master = canvas, bg = "Red", width = 7, height = 13)
                 newLabel.place(x = 30, y = 30)
             case (2):
                 resozed= arrVal[0].resize((200,200), Image.LANCZOS)
                 self.newImage = ImageTk.PhotoImage(resozed)
-                self.mainCanvas.create_image(213, 130, image= self.newImage)
+                self.mainCanvas.create_image(213, 130, image=  self.newImage)
                 newLabel = Label(master = canvas, bg = "Blue", width = 7, height = 13)
                 newLabel.place(x = 30, y = 30)
             case (3):
                 resozed = image.resize((200,200), Image.LANCZOS)
                 self.newImage = ImageTk.PhotoImage(resozed)
-                self.mainCanvas.create_image(213, 130, image= self.newImage)
     #Debugger printing cursor location on parent widget.
     #Useful for finding borders of frames/canvas'and placing
     #widgets =)d - s21
@@ -316,28 +309,42 @@ class tapStrapGUI:
         x, y = event.x, event.y
         print('{}, {}'.format(x, y))
     #Button to blur discretely
-    def pillowBlurCommand(self, image1, canvas):
+    def pillowBlurCommand(self, image1, canvas,resized):
         if (self.countBlur % 3 == 1):
             self.destroyYourChildren(canvas)
             self.newImage1 = ImageTk.PhotoImage(image1.filter(ImageFilter.GaussianBlur(4)))
-            canvas.create_image(213, 130, image = self.newImage1)
+            if (resized == True):
+                canvas.create_image(735, 355, image = self.newImage1)
+            else:
+                canvas.create_image(213, 130, image = self.newImage1)
             self.countBlur +=1
         elif(self.countBlur % 3 == 0 ):
             self.destroyYourChildren(canvas)
             self.newImage1 = ImageTk.PhotoImage(image1)
-            canvas.create_image(213, 130, image = self.newImage1)
+            if (resized == True):
+                canvas.create_image(735, 355, image = self.newImage1)
+            else:
+                canvas.create_image(213, 130, image = self.newImage1)
             self.countBlur +=1
         else:
             self.destroyYourChildren(canvas)
             self.newImage1 = ImageTk.PhotoImage(image1.filter(ImageFilter.GaussianBlur(13)))
-            canvas.create_image(213, 130, image = self.newImage1)
+            if (resized == True):
+                canvas.create_image(735, 355, image = self.newImage1)
+            else:
+                canvas.create_image(213, 130, image = self.newImage1)
             self.countBlur +=1
     
-    def pillowContBlur(self, image1, canvas):
+    def pillowContBlur(self, image1, canvas, resized):
         #Increase Gaussian Blur
-        for x in range(0, 50):
+        for x in range(0, 30):
             self.newImage2 = ImageTk.PhotoImage(image1.filter(ImageFilter.GaussianBlur(x)))
-            canvas.create_image(213, 130, image = self.newImage2)
+            if (resized == True):
+                canvas.create_image(735, 355, image = self.newImage2)
+                canvas.update_idletasks()
+            else:
+                canvas.create_image(213, 130, image = self.newImage2)
+                canvas.update_idletasks()
             self.destroyYourChildren(canvas)
             canvas.update_idletasks()
             time.sleep(.03)
@@ -352,73 +359,102 @@ class tapStrapGUI:
         #Reduce Gaussian Blur
         for j in reversed(range(0,30)):
             self.newImage2 = ImageTk.PhotoImage(image1.filter(ImageFilter.GaussianBlur(j)))
-            canvas.create_image(213, 130, image = self.newImage2)
+            if (resized == True):
+                canvas.create_image(735, 355, image = self.newImage2)
+                canvas.update_idletasks()
+            else:
+                canvas.create_image(213, 130, image = self.newImage2)
+                canvas.update_idletasks()
             self.destroyYourChildren(canvas)
             canvas.update_idletasks()
             time.sleep(.03)
         #print(j)
-    def pillowHueCommand(self, image1, canvas):
+    def pillowHueCommand(self, image1, canvas, resized):
         #Change Hue of picture
-        for x in range(0, 100):
+        for x in range(0, 75):
             self.newImage2 = ImageTk.PhotoImage(image1.point(lambda p: p > x and 255))
-            canvas.create_image(213, 130, image = self.newImage2)
+            if (resized == True):
+                canvas.create_image(735, 355, image = self.newImage2)
+                canvas.update_idletasks()
+            else:
+                canvas.create_image(213, 130, image = self.newImage2)
+                canvas.update_idletasks()
             self.destroyYourChildren(canvas)
-            canvas.update_idletasks()
             time.sleep(.05)
-    def openNewWindow(self,pWindow):
-        newWindow = Toplevel(pWindow)
-        newWindow.title("New Window")
-        newWindow.geometry("1350x735")
-        Label(newWindow,
-          text ="This is a new window").pack()
-        self.newCanvas = Canvas(newWindow, height = 735,
+
+    def openNewWindow1(self,pWindow):
+        self.newWindow = Toplevel(pWindow)
+        self.newWindow.title("New Window")
+        self.newCanvas = Canvas(self.newWindow, height = 735,
         width = 1350,bg = "black")
         self.newCanvas.pack()
         self.newCanvas.pack_propagate(False)
         self.backgroundImg = Image.open('elnatan.PNG')
-        self.backgroundImg.resize((1000,635), Image.LANCZOS)
+        self.backgroundImg.resize((5000,5000), Image.LANCZOS)
         self.imageJ = ImageTk.PhotoImage(self.backgroundImg)
-        self.newCanvas.create_image(675, 355, image = self.imageJ)
-        #newWindow.bind('<Motion>', self.eventListenerPosition)
-
+        self.newCanvas.create_image(735, 355, image = self.imageJ)
+        self.addButtonsWindow1(self.newWindow, self.newCanvas)
         #This is for feature 3
-        #To increase RGB value: Call pillowChangeColor2(image1, canvas, color) where color is either 'red', 'blue', or 'green'. 
-        #The canvas value is self.mainCanvas. image1 is self.backgroundImage.
-        #To decrease RGB value: Call pillowChangeColor2A. Same parameters as pillowChangeColor2. For the random color feature,
-        #Call pillowChangeColor(image1, canvas). Same value of image1 and canvas
-
     def openNewWindow2(self,pWindow):
-        newWindow = Toplevel(pWindow)
-        newWindow.title("New Window")
-        newWindow.geometry("1350x735")
-        Label(newWindow,
-          text ="This is a new window").pack()
-        self.newCanvas = Canvas(newWindow, height = 735,
+        self.newWindow = Toplevel(pWindow)
+        self.newWindow.title("New Window")
+        self.newCanvas = Canvas(self.newWindow, height = 735,
         width = 1350,bg = "black")
         self.newCanvas.pack()
         self.newCanvas.pack_propagate(False)
         self.backgroundImg = Image.open('colorful.PNG')
         self.backgroundImg.resize((5000,5000), Image.LANCZOS)
         self.imageJ = ImageTk.PhotoImage(self.backgroundImg)
-        self.newCanvas.create_image(675, 355, image = self.imageJ)
-        #newWindow.bind('<Motion>', self.eventListenerPosition)
-    
-    def pillowChangeColor(self, image1, canvas):
+        self.newCanvas.create_image(735, 355, image = self.imageJ)
+        self.addButtonsWindow2(self.newWindow, self.newCanvas)
+        self.newWindow.bind('<Motion>', self.eventListenerPosition)    
+
+    def addButtonsWindow2(self, win, canvas):
+         self.buttonTemp2 = Button(master = win, text = "Random color", command = lambda : self.pillowChangeColor(self.backgroundImg, canvas, False))
+         self.buttonTemp2.place(x = 10, y = 510)
+         self.buttonTemp4 = Button(master = win, text = "Increase blue value", command = lambda : self.pillowChangeColor2(self.backgroundImg, canvas, "blue", False))
+         self.buttonTemp4.place(x = 10, y = 480)
+         self.buttonTemp4 = Button(master = win, text = "Decrease blue value", command = lambda : self.pillowChangeColor2A(self.backgroundImg, canvas, "blue", False))
+         self.buttonTemp4.place(x = 10, y = 450)
+         self.buttonTemp4 = Button(master = win, text = "Increase red value", command = lambda : self.pillowChangeColor2(self.backgroundImg, canvas, "red", False))
+         self.buttonTemp4.place(x = 10, y = 420)
+         self.buttonTemp4 = Button(master = win, text = "Decrease red value", command = lambda : self.pillowChangeColor2A(self.backgroundImg, canvas, "red", False))
+         self.buttonTemp4.place(x = 10, y = 390)
+         self.buttonTemp4 = Button(master = win, text = "Increase green value", command = lambda : self.pillowChangeColor2(self.backgroundImg, canvas, "green", False))
+         self.buttonTemp4.place(x = 10, y = 360)
+         self.buttonTemp4 = Button(master = win, text = "Decrease green value", command = lambda : self.pillowChangeColor2A(self.backgroundImg, canvas, "green", False))
+         self.buttonTemp4.place(x = 10, y = 330)
+
+    def addButtonsWindow1(self, win, canvas):
+         self.buttonTemp = Button(master = win, text = "Gaussian Blur", command = lambda : self.pillowBlurCommand(self.backgroundImg, canvas, True ))
+         self.buttonTemp.place(x = 85, y = 370)
+         self.buttonTemp2 = Button(master = win, text = "Continuous Blur", command = lambda : self.pillowContBlur(self.backgroundImg, canvas, True))
+         self.buttonTemp2.place(x = 85, y = 400)
+         self.buttonTemp4 = Button(master = win, text = "Change Hue", command = lambda : self.pillowHueCommand(self.backgroundImg, canvas, True))
+         self.buttonTemp4.place(x = 85, y = 430)
+         
+    def pillowChangeColor(self, image1, canvas, resize):
         for x in range(10):
             canvas.delete("all")
             arrImg = image1.split()
             colors = self.threeRandomInt()
+
             arrImg0 = arrImg[0].point(lambda i: i * colors[0])
             arrImg1 = arrImg[1].point(lambda i: i * colors[1])
             arrImg2 = arrImg[2].point(lambda i: i * colors[2])
             image4 = Image.merge("RGB", (arrImg0, arrImg1, arrImg2))
-            image4 = image4.resize((400,220), Image.LANCZOS)
+            if (resize == True):
+                image4 = image4.resize((400,220), Image.LANCZOS)
+
             self.image4 = ImageTk.PhotoImage(image4)
-            canvas.create_image(202, 106, image = self.image4) 
+            if (resize == True):
+                canvas.create_image(202, 106, image = self.image4) 
+            else:
+                canvas.create_image(735, 355, image = self.image4)
             canvas.update_idletasks()
             time.sleep(.08)  
 
-    def pillowChangeColor2(self, image1, canvas, color):
+    def pillowChangeColor2(self, image1, canvas, color, resize):
         match (color):
             case ("red"):
                 for x in range(self.globalR, self.globalR + 3):
@@ -429,9 +465,13 @@ class tapStrapGUI:
                     arrImg1 = arrImg[1].point(lambda i: i * (self.globalG / 10))
                     arrImg2 = arrImg[2].point(lambda i: i * (self.globalB/ 10))
                     image4 = Image.merge("RGB", (arrImg0, arrImg1, arrImg2))
-                    image4 = image4.resize((400,220), Image.LANCZOS)
+                    if (resize == True):
+                        image4 = image4.resize((400,220), Image.LANCZOS)
                     self.image4 = ImageTk.PhotoImage(image4)
-                    canvas.create_image(202, 106, image = self.image4) 
+                    if (resize == True):
+                        canvas.create_image(202, 106, image = self.image4) 
+                    else:
+                        canvas.create_image(735, 355, image = self.image4)
                     canvas.update_idletasks()
                     time.sleep(.03)  
                     self.t1A.delete("1.0", "end")
@@ -447,9 +487,13 @@ class tapStrapGUI:
                     arrImg1 = arrImg[1].point(lambda i: i * (x/10))
                     arrImg2 = arrImg[2].point(lambda i: i * (self.globalB/ 10))
                     image4 = Image.merge("RGB", (arrImg0, arrImg1, arrImg2))
-                    image4 = image4.resize((400,220), Image.LANCZOS)
+                    if (resize == True):
+                        image4 = image4.resize((400,220), Image.LANCZOS)
                     self.image4 = ImageTk.PhotoImage(image4)
-                    canvas.create_image(202, 106, image = self.image4) 
+                    if (resize == True):
+                        canvas.create_image(202, 106, image = self.image4) 
+                    else:
+                        canvas.create_image(735, 355, image = self.image4)
                     canvas.update_idletasks()
                     time.sleep(.03)
                     self.t2A.delete("1.0", "end")
@@ -464,15 +508,19 @@ class tapStrapGUI:
                     arrImg1 = arrImg[1].point(lambda i: i * (self.globalG/ 10))
                     arrImg2 = arrImg[2].point(lambda i: i * (x/10))
                     image4 = Image.merge("RGB", (arrImg0, arrImg1, arrImg2))
-                    image4 = image4.resize((400,220), Image.LANCZOS)
+                    if (resize == True):
+                        image4 = image4.resize((400,220), Image.LANCZOS)
                     self.image4 = ImageTk.PhotoImage(image4)
-                    canvas.create_image(202, 106, image = self.image4) 
+                    if (resize == True):
+                        canvas.create_image(202, 106, image = self.image4) 
+                    else:
+                        canvas.create_image(735, 355, image = self.image4)
                     canvas.update_idletasks()
                     time.sleep(.03)
                     self.t3A.delete("1.0", "end")
-                    self.t3A.insert(INSERT, self.globalB)  
+                    self.t3A.insert(INSERT, self.globalB)         
     #REVERSE color
-    def pillowChangeColor2A(self, image1, canvas, color):
+    def pillowChangeColor2A(self, image1, canvas, color, resize):
         match (color):
             case ("red"):
                 for x in reversed(range(self.globalR - 3,self.globalR)):
@@ -483,13 +531,18 @@ class tapStrapGUI:
                     arrImg1 = arrImg[1].point(lambda i: i * (self.globalG / 10))
                     arrImg2 = arrImg[2].point(lambda i: i * (self.globalB / 10))
                     image4 = Image.merge("RGB", (arrImg0, arrImg1, arrImg2))
-                    image4 = image4.resize((400,220), Image.LANCZOS)
+                    if (resize == True):
+                        image4 = image4.resize((400,220), Image.LANCZOS)
                     self.image4 = ImageTk.PhotoImage(image4)
-                    canvas.create_image(202, 106, image = self.image4) 
+                    if (resize == True):
+                        canvas.create_image(202, 106, image = self.image4) 
+                    else:
+                        canvas.create_image(735, 355, image = self.image4)
                     canvas.update_idletasks()
                     time.sleep(.03)  
                     self.t1A.delete("1.0", "end")
-                    self.t1A.insert(INSERT, self.globalR)             
+                    self.t1A.insert(INSERT, self.globalR)
+                      
             case ("green"):
                 for x in reversed(range(self.globalG - 3,self.globalG)):
                     self.globalG -=1
@@ -499,28 +552,36 @@ class tapStrapGUI:
                     arrImg1 = arrImg[1].point(lambda i: i * (x/10))
                     arrImg2 = arrImg[2].point(lambda i: i * (self.globalB / 10))
                     image4 = Image.merge("RGB", (arrImg0, arrImg1, arrImg2))
-                    image4 = image4.resize((400,220), Image.LANCZOS)
+                    if (resize == True):
+                        image4 = image4.resize((400,220), Image.LANCZOS)
                     self.image4 = ImageTk.PhotoImage(image4)
-                    canvas.create_image(202, 106, image = self.image4) 
+                    if (resize == True):
+                        canvas.create_image(202, 106, image = self.image4) 
+                    else:
+                        canvas.create_image(735, 355, image = self.image4)
                     canvas.update_idletasks()
                     time.sleep(.03)
                     self.t2A.delete("1.0", "end")
                     self.t2A.insert(INSERT, self.globalG)
                     
-            case _:
+            case ("blue"):
                 for x in reversed(range(self.globalB - 3,self.globalB)):
                     self.globalB -=1
                     canvas.delete("all")
                     arrImg = image1.split()
                     arrImg0 = arrImg[0].point(lambda i: i * (self.globalR / 10))
-                    arrImg1 = arrImg[1].point(lambda i: i * (self.globalG / 10))
-                    arrImg2 = arrImg[2].point(lambda i: i * (x/10))
+                    arrImg1 = arrImg[1].point(lambda i: i * (self.globalG/10))
+                    arrImg2 = arrImg[2].point(lambda i: i * (x / 10))
                     image4 = Image.merge("RGB", (arrImg0, arrImg1, arrImg2))
-                    image4 = image4.resize((400,220), Image.LANCZOS)
+                    if (resize == True):
+                        image4 = image4.resize((400,220), Image.LANCZOS)
                     self.image4 = ImageTk.PhotoImage(image4)
-                    canvas.create_image(202, 106, image = self.image4) 
+                    if (resize == True):
+                        canvas.create_image(202, 106, image = self.image4) 
+                    else:
+                        canvas.create_image(735, 355, image = self.image4)
                     canvas.update_idletasks()
-                    time.sleep(.03)  
+                    time.sleep(.03)
                     self.t3A.delete("1.0", "end")
                     self.t3A.insert(INSERT, self.globalB)
     #This is a helper function for changing the color to random 

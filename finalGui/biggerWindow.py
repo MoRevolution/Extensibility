@@ -23,12 +23,14 @@ class tapStrapGUI:
     current_tap = 0
     in_mode = False
     is_color = False
+    in_window = False
     current_color = ''
     from tapsdk import TapSDK, TapInputMode
     from Finger import Finger
 
     import keyboard
     import screen_brightness_control as sbc
+    
     
     # from multiplePages import tapStrapGUI
 
@@ -106,7 +108,7 @@ class tapStrapGUI:
         self.labelb3.place(x = 0, y = (425), width = 175, height = 2)
 
 
-        self.button4 = Button(self.frame1, text = "Feature #4",
+        self.button4 = Button(self.frame1, text = "System",
         font = ('Courier New', 15), fg= "White", bd = 0, bg = "#0d0d0d",
                 command = lambda: self.selectIndicator(self.button4Indicator, self.button4))
         self.button4.place(x = 20, y = 475)
@@ -385,9 +387,9 @@ class tapStrapGUI:
             time.sleep(.05)
 
     def openNewWindow1(self,pWindow):
-        self.newWindow = Toplevel(pWindow)
-        self.newWindow.title("New Window")
-        self.newCanvas = Canvas(self.newWindow, height = 735,
+        self.newWindoww1 = Toplevel(pWindow)
+        self.newWindoww1.title("New Window")
+        self.newCanvas = Canvas(self.newWindoww1, height = 735,
         width = 1350,bg = "black")
         self.newCanvas.pack()
         self.newCanvas.pack_propagate(False)
@@ -395,12 +397,12 @@ class tapStrapGUI:
         self.backgroundImg.resize((5000,5000), Image.LANCZOS)
         self.imageJ = ImageTk.PhotoImage(self.backgroundImg)
         self.newCanvas.create_image(735, 355, image = self.imageJ)
-        self.addButtonsWindow1(self.newWindow, self.newCanvas)
+        self.addButtonsWindow1(self.newWindoww1, self.newCanvas)
         #This is for feature 3
     def openNewWindow2(self,pWindow):
-        self.newWindow = Toplevel(pWindow)
-        self.newWindow.title("New Window")
-        self.newCanvas = Canvas(self.newWindow, height = 735,
+        self.newWindoww2 = Toplevel(pWindow)
+        self.newWindoww2.title("New Window")
+        self.newCanvas = Canvas(self.newWindoww2, height = 735,
         width = 1350,bg = "black")
         self.newCanvas.pack()
         self.newCanvas.pack_propagate(False)
@@ -408,32 +410,32 @@ class tapStrapGUI:
         self.backgroundImg.resize((5000,5000), Image.LANCZOS)
         self.imageJ = ImageTk.PhotoImage(self.backgroundImg)
         self.newCanvas.create_image(735, 355, image = self.imageJ)
-        self.addButtonsWindow2(self.newWindow, self.newCanvas)
-        self.newWindow.bind('<Motion>', self.eventListenerPosition)    
+        self.addButtonsWindow2(self.newWindoww2, self.newCanvas)
+        self.newWindoww2.bind('<Motion>', self.eventListenerPosition)    
 
     def addButtonsWindow2(self, win, canvas):
-         self.buttonTemp2 = Button(master = win, text = "Random color", command = lambda : self.pillowChangeColor(self.backgroundImg, canvas, False))
-         self.buttonTemp2.place(x = 10, y = 510)
-         self.buttonTemp4 = Button(master = win, text = "Increase blue value", command = lambda : self.pillowChangeColor2(self.backgroundImg, canvas, "blue", False))
-         self.buttonTemp4.place(x = 10, y = 480)
-         self.buttonTemp4 = Button(master = win, text = "Decrease blue value", command = lambda : self.pillowChangeColor2A(self.backgroundImg, canvas, "blue", False))
-         self.buttonTemp4.place(x = 10, y = 450)
-         self.buttonTemp4 = Button(master = win, text = "Increase red value", command = lambda : self.pillowChangeColor2(self.backgroundImg, canvas, "red", False))
-         self.buttonTemp4.place(x = 10, y = 420)
-         self.buttonTemp4 = Button(master = win, text = "Decrease red value", command = lambda : self.pillowChangeColor2A(self.backgroundImg, canvas, "red", False))
-         self.buttonTemp4.place(x = 10, y = 390)
-         self.buttonTemp4 = Button(master = win, text = "Increase green value", command = lambda : self.pillowChangeColor2(self.backgroundImg, canvas, "green", False))
-         self.buttonTemp4.place(x = 10, y = 360)
-         self.buttonTemp4 = Button(master = win, text = "Decrease green value", command = lambda : self.pillowChangeColor2A(self.backgroundImg, canvas, "green", False))
-         self.buttonTemp4.place(x = 10, y = 330)
+         self.buttonTemp7w2 = Button(master = win, text = "Random color", command = lambda : self.pillowChangeColor(self.backgroundImg, canvas, False))
+         self.buttonTemp7w2.place(x = 10, y = 510)
+         self.buttonTemp6w2 = Button(master = win, text = "Increase blue value", command = lambda : self.pillowChangeColor2(self.backgroundImg, canvas, "blue", False))
+         self.buttonTemp6w2.place(x = 10, y = 480)
+         self.buttonTemp5w2 = Button(master = win, text = "Decrease blue value", command = lambda : self.pillowChangeColor2A(self.backgroundImg, canvas, "blue", False))
+         self.buttonTemp5w2.place(x = 10, y = 450)
+         self.buttonTemp2w2 = Button(master = win, text = "Increase red value", command = lambda : self.pillowChangeColor2(self.backgroundImg, canvas, "red", False))
+         self.buttonTemp2w2.place(x = 10, y = 420)
+         self.buttonTempw2 = Button(master = win, text = "Decrease red value", command = lambda : self.pillowChangeColor2A(self.backgroundImg, canvas, "red", False))
+         self.buttonTempw2.place(x = 10, y = 390)
+         self.buttonTemp4w2 = Button(master = win, text = "Increase green value", command = lambda : self.pillowChangeColor2(self.backgroundImg, canvas, "green", False))
+         self.buttonTemp4w2.place(x = 10, y = 360)
+         self.buttonTemp3w2 = Button(master = win, text = "Decrease green value", command = lambda : self.pillowChangeColor2A(self.backgroundImg, canvas, "green", False))
+         self.buttonTemp3w2.place(x = 10, y = 330)
 
     def addButtonsWindow1(self, win, canvas):
-         self.buttonTemp = Button(master = win, text = "Gaussian Blur", command = lambda : self.pillowBlurCommand(self.backgroundImg, canvas, True ))
-         self.buttonTemp.place(x = 85, y = 370)
-         self.buttonTemp2 = Button(master = win, text = "Continuous Blur", command = lambda : self.pillowContBlur(self.backgroundImg, canvas, True))
-         self.buttonTemp2.place(x = 85, y = 400)
-         self.buttonTemp4 = Button(master = win, text = "Change Hue", command = lambda : self.pillowHueCommand(self.backgroundImg, canvas, True))
-         self.buttonTemp4.place(x = 85, y = 430)
+         self.buttonTempw1 = Button(master = win, text = "Gaussian Blur", command = lambda : self.pillowBlurCommand(self.backgroundImg, canvas, True ))
+         self.buttonTempw1.place(x = 85, y = 370)
+         self.buttonTemp2w1 = Button(master = win, text = "Continuous Blur", command = lambda : self.pillowContBlur(self.backgroundImg, canvas, True))
+         self.buttonTemp2w1.place(x = 85, y = 400)
+         self.buttonTemp3w1 = Button(master = win, text = "Change Hue", command = lambda : self.pillowHueCommand(self.backgroundImg, canvas, True))
+         self.buttonTemp3w1.place(x = 85, y = 430)
          
     def pillowChangeColor(self, image1, canvas, resize):
         for x in range(10):
@@ -670,47 +672,101 @@ class tapStrapGUI:
                 self.in_mode = False
             elif self.current_mode == 1:
                 print("In Mode 1")
-                self.buttonTempf1.invoke()
+                if int(self.current_tapcode) == 2:
+                    self.buttonTempf1.invoke()
+                elif int(self.current_tapcode) == 4:
+                    self.buttonTempf1.invoke()
+                elif int(self.current_tapcode) == 8:
+                    self.buttonTempf1.invoke()
+                elif int(self.current_tapcode) == 16:
+                    self.buttonTempf1.invoke()
             elif self.current_mode == 2:
                 print("In Mode 2")
-                if int(self.current_tapcode) == 2:
-                    self.buttonTempf2.invoke()
-                if int(self.current_tapcode) == 4:
-                    self.buttonTemp2f2.invoke()
-                if int(self.current_tapcode) == 8:
-                    self.buttonTemp3f2.invoke()
-                if int(self.current_tapcode) == 16:
-                    self.buttonTemp4f2.invoke()
+                if self.in_window == False:
+                    if int(self.current_tapcode) == 2:
+                        self.buttonTempf2.invoke()
+                    if int(self.current_tapcode) == 4:
+                        self.buttonTemp2f2.invoke()
+                    if int(self.current_tapcode) == 8:
+                        self.buttonTemp3f2.invoke()
+                    if int(self.current_tapcode) == 16:
+                        self.buttonTemp4f2.invoke()
+                        self.in_window = True
+                elif self.in_window == True:
+                    if int(self.current_tapcode) == 2:
+                        self.buttonTempw1.invoke()
+                    elif int(self.current_tapcode) == 4:
+                        self.buttonTemp2w1.invoke()
+                    elif int(self.current_tapcode) == 8:
+                        self.buttonTemp3w1.invoke()
+                    elif int(self.current_tapcode) == 16:
+                        self.newWindoww1.destroy()
+                        self.in_window = False
             elif self.current_mode == 3:
                 print("In Mode 3")
-                if int(self.current_tapcode) == 2:
-                    self.current_color = 'red'
-                elif int(self.current_tapcode) == 4:
-                    self.current_color = 'green'
-                elif int(self.current_tapcode) == 8:
-                    self.current_color = 'blue'
-                elif int(self.current_tapcode) == 16:
-                    if self.current_color == 'red':
-                        self.buttonTemp4f3.invoke()
-                    elif self.current_color == 'green':
-                        self.buttonTemp2f3.invoke()
-                    elif self.current_color == 'blue':
-                        self.buttonTemp6f3.invoke()
-                elif int(self.current_tapcode) == 1:
-                    if self.current_color == 'red':
-                        self.buttonTemp3f3.invoke()
-                    elif self.current_color == 'green':
-                        self.buttonTempf3.invoke()
-                    elif self.current_color == 'blue':
-                        self.buttonTemp5f3.invoke()
-                elif int(self.current_tapcode) == 14:
-                    self.buttonTemp7f3.invoke()
+                if self.in_window == False:
+                    if int(self.current_tapcode) == 21:
+                        self.buttonTemp8f3.invoke()
+                        self.in_window = True
+                    if int(self.current_tapcode) == 2:
+                        self.current_color = 'red'
+                    elif int(self.current_tapcode) == 4:
+                        self.current_color = 'green'
+                    elif int(self.current_tapcode) == 8:
+                        self.current_color = 'blue'
+                    elif int(self.current_tapcode) == 16:
+                        if self.current_color == 'red':
+                            self.buttonTemp4f3.invoke()
+                        elif self.current_color == 'green':
+                            self.buttonTemp2f3.invoke()
+                        elif self.current_color == 'blue':
+                            self.buttonTemp6f3.invoke()
+                    elif int(self.current_tapcode) == 1:
+                        if self.current_color == 'red':
+                            self.buttonTemp3f3.invoke()
+                        elif self.current_color == 'green':
+                            self.buttonTempf3.invoke()
+                        elif self.current_color == 'blue':
+                            self.buttonTemp5f3.invoke()
+                    elif int(self.current_tapcode) == 14:
+                        self.buttonTemp7f3.invoke()
+                elif self.in_window == True:
+                    if int(self.current_tapcode) == 21:
+                        self.newWindoww2.destroy()
+                        self.in_window = False
+                    if int(self.current_tapcode) == 2:
+                        self.current_color = 'red'
+                    elif int(self.current_tapcode) == 4:
+                        self.current_color = 'green'
+                    elif int(self.current_tapcode) == 8:
+                        self.current_color = 'blue'
+                    elif int(self.current_tapcode) == 16:
+                        if self.current_color == 'red':
+                            self.buttonTemp2w2.invoke()
+                        elif self.current_color == 'green':
+                            self.buttonTemp4w2.invoke()
+                        elif self.current_color == 'blue':
+                            self.buttonTemp6w2.invoke()
+                    elif int(self.current_tapcode) == 1:
+                        if self.current_color == 'red':
+                            self.buttonTempw2.invoke()
+                        elif self.current_color == 'green':
+                            self.buttonTemp3w2.invoke()
+                        elif self.current_color == 'blue':
+                            self.buttonTemp5w2.invoke()
+                    elif int(self.current_tapcode) == 14:
+                        self.buttonTemp7w2.invoke()
             elif self.current_mode == 4:
                 print("In Mode 4")
                 if int(self.current_tapcode) == 2:
                     self.sbc.set_brightness('-10')
-                if int(self.current_tapcode) == 4:
+                elif int(self.current_tapcode) == 4:
                     self.sbc.set_brightness('+10')
+                elif int(self.current_tapcode) == 8:
+                    self.keyboard.press_and_release('ctrl+shift+esc')
+                elif int(self.current_tapcode) == 16:
+                    self.keyboard.press_and_release('windows+r')
+                
     #Selects the mode of the Tap Strap using the given tapcode
     def selectMode(self, tapcode):
         if self.isActive:

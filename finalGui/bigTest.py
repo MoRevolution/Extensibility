@@ -115,7 +115,7 @@ class tapStrapGUI:
         self.labelb4 = Label(text = "")
         self.labelb4.config(bg = "#ffffff")
         self.labelb4.place(x = 0, y = (550), width = 175, height = 2)
-    #The button Variable here is actually a label. No I won't chage it EDIT: I changed it 
+    #The button Variable here is actually a label. No I won't change it EDIT: I changed it 
     def selectIndicator(self, indicator, button):
         if (self.isClicked == True):
             indicator.config(bg = "#ffffff")

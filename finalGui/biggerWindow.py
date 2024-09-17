@@ -170,7 +170,7 @@ class tapStrapGUI:
          self.mainCanvas = Canvas(self.mainFrame, height = 300,
          width = 400,bg = "black")
          self.mainCanvas.pack(pady = 50)
-         self.backgroundImg = Image.open('finalGui/wheels2.png')
+         self.backgroundImg = Image.open('finalGui/media/wheels2.png')
          self.tempImg = self.backgroundImg
          print(self.backgroundImg.mode)
          resized = self.backgroundImg.resize((200, 200), Image.LANCZOS)
@@ -197,7 +197,7 @@ class tapStrapGUI:
          self.mainCanvas = Canvas(self.mainFrame, height = 300,
          width = 400,bg = "black")
          self.mainCanvas.pack(pady = 50)
-         self.backgroundImg = Image.open('finalGui/elnatan.PNG')
+         self.backgroundImg = Image.open('finalGui/media/elnatan.png')
          self.tempImg = self.backgroundImg
          print(self.backgroundImg.mode)
          resized = self.backgroundImg.resize((200, 200), Image.LANCZOS)
@@ -219,7 +219,7 @@ class tapStrapGUI:
          self.label3A = Label(self.frameF3, text = labelTxt, bd = 5,
          font = ("Courier New", 18), relief = RAISED, bg = "#0d0d0d",
          fg = '#fff')
-         self.backgroundImg = Image.open('finalGui/colorful.PNG')
+         self.backgroundImg = Image.open('finalGui/media/colorful.png')
          self.backgroundImg = self.backgroundImg.resize((400,220), Image.LANCZOS)
          self.imageJ = ImageTk.PhotoImage(self.backgroundImg)
          self.label3A.grid(row = 0, column = 1,pady = 50)
@@ -393,7 +393,7 @@ class tapStrapGUI:
         width = 1350,bg = "black")
         self.newCanvas.pack()
         self.newCanvas.pack_propagate(False)
-        self.backgroundImg = Image.open('finalGui/elnatan.PNG')
+        self.backgroundImg = Image.open('finalGui/media/elnatan.png')
         self.backgroundImg.resize((5000,5000), Image.LANCZOS)
         self.imageJ = ImageTk.PhotoImage(self.backgroundImg)
         self.newCanvas.create_image(735, 355, image = self.imageJ)
@@ -406,7 +406,7 @@ class tapStrapGUI:
         width = 1350,bg = "black")
         self.newCanvas.pack()
         self.newCanvas.pack_propagate(False)
-        self.backgroundImg = Image.open('finalGui/colorful.PNG')
+        self.backgroundImg = Image.open('finalGui/media/colorful.png')
         self.backgroundImg.resize((5000,5000), Image.LANCZOS)
         self.imageJ = ImageTk.PhotoImage(self.backgroundImg)
         self.newCanvas.create_image(735, 355, image = self.imageJ)
